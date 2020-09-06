@@ -6,6 +6,7 @@ class TweetsController < ApplicationController
   # GET /tweets.json
   def index
     @tweets = Tweet.all
+    organized_pages
   end
 
   # GET /tweets/1
@@ -94,4 +95,9 @@ class TweetsController < ApplicationController
     def tweet_params
       params.require(:tweet).permit(:content, :user)
     end
+  
+  def organized_pages
+    @tweets = Tweet.order(:created_at).page params[:page]
+  end  
+
 end

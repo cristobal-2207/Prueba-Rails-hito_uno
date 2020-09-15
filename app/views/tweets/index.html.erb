@@ -1,5 +1,9 @@
 <h1>Tweets</h1>
 
+<% if current_user %>  
+  <%= render 'form', tweet: @tweet %>
+<% end %>
+
 <table>
   <thead>
     <tr>
@@ -14,20 +18,50 @@
       <tr>
         <td><%=image_tag tweet.user.image_url, class: "images_avatar rounded-circle border border-info " %></td>  
         <td><%= tweet.user.name %></td>
+        <td><%= link_to time_ago_in_words(tweet.created_at) , tweet%></td> 
         <td><%= tweet.content %></td>
         <td><%= link_to 'Ver', tweet %></td>
         <td><%= link_to 'Editar', edit_tweet_path(tweet) %></td>
         <td><%= link_to 'Eliminar', tweet, method: :delete, data: { confirm: 'Are you sure?' } %></td>
 
-        <%=tweet.likes_count%>
-        <%= link_to 'like', likes_path(tweet.id), method: :post, class: "fas fa-heart"%>
-        
-        <%=tweet.retweets_count%>
-        <%= link_to 'retweet', retweets_path(tweet.id), method: :post, class: "fas fa-retweet"%> 
+        <td>
+          <%=tweet.likes_count%>
+          <%= link_to 'like', likes_path(tweet.id), method: :post, class: "fas fa-heart"%>
+        </td>
 
+        <td>
+          <%=tweet.retweets_count%>
+          <%= link_to 'retweet', retweets_path(tweet.id), method: :post, class: "fas fa-retweet"%> 
+        </td>
       </tr>
     <% end %>
   </tbody>
+
+  <tbody>
+    <% @retweets.each do |retweet| %>
+    <tr>
+      <td><%=image_tag retweet.user.image_url, class: "images_avatar rounded-circle border border-info " %></td>  
+      <td><%= retweet.user.name %></td>
+      <td><%=image_tag retweet.tweet.user.image_url, class: "images_avatar rounded-circle border border-info " %></td>  
+      <td><%= retweet.tweet.user.name %></td>
+      <td><a href=<%=tweets_path(retweet.tweet_id)%>> <%= time_ago_in_words(retweet.tweet.created_at) %></a></td> 
+      <td><%= retweet.tweet.content %></td>
+    
+      <td>
+        <%=retweet.tweet.likes_count%>
+        <%= link_to 'like', likes_path(retweet.tweet.id), method: :post, class: "fas fa-heart"%>
+      </td>
+
+      <td>
+        <%=retweet.tweet.retweets_count%>
+        <%= link_to 'retweet', retweets_path(retweet.tweet.id), method: :post, class: "fas fa-retweet"%> 
+      </td>
+    </tr>
+
+  <% end %>
+
+</tbody>
+
 </table>
 
 <br>

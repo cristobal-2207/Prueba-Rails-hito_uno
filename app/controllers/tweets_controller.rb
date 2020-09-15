@@ -7,12 +7,14 @@ class TweetsController < ApplicationController
   def index
     @tweets = Tweet.all
     organized_pages
+    @tweet= Tweet.new
+    @retweets= Retweet.all 
   end
 
   # GET /tweets/1
   # GET /tweets/1.json
   def show
-    #@image_profile = @user.image_url
+    @likes = Like.all 
   end
 
   # GET /tweets/new

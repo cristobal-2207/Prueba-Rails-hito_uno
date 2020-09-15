@@ -7,17 +7,17 @@ class RetweetsController < ApplicationController
   end
   
   def create
-    retweet =Reweet.find_by(id:params[:format])
+    tweet=Tweet.find_by(id:params[:format])
     if Retweet.find_by(user_id:current_user.id,tweet_id:tweet.id )
-      @destruir= Retweet.find_by(user_id:current_user.id,retweet_id:retweet.id)
+      @destruir= Retweet.find_by(user_id:current_user.id,tweet_id:tweet.id)
       @destruir.destroy
-      retweet.likes_count-=1
-      retweet.save
+      tweet.retweets_count-=1
+      tweet.save
       redirect_to root_path
     else
-      Retweet.create(user_id:current_user.id, retweet_id:retweet.id)
-      retweet.likes_count+=1
-      retweet.save
+      Retweet.create(user_id:current_user.id, tweet_id:tweet.id)
+      tweet.retweets_count+=1
+      tweet.save
       redirect_to root_path
     end
   end

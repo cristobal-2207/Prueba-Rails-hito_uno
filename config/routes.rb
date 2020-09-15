@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'tweets#index'
   resources :tweets do
     post 'likes', to: 'tweets#likes'
-    post 'retweet', to: 'tweets#retweet'
+    post 'retweet', to: 'tweets#retweet', as: 'retweets'
   end
 
   resources :retweets
